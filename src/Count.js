@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CountUp from "react-countup";
 import { useState } from "react";
 import ScrollTrigger from "react-scroll-trigger";
+import moment from "moment/moment";
 
 const Count = () => {
      const [counterOn, setCounterOn] = useState(false);
+
+     const [date, setDate] = useState({
+          countDay: 0
+     })
+
+     useEffect(() => {
+          let startDate = moment('2021-7-11')
+          let endDate = moment(new Date())
+          let daysDifference = endDate.diff(startDate, 'days');
+          setDate({
+               ...date,
+               countDay: daysDifference
+          })
+     }, [])
+     console.log("date", date)
 
      return (
           <>
@@ -22,14 +38,10 @@ const Count = () => {
                                    justifyContent: 'center',
                               }}
                          >
-                              {counterOn && <CountUp start={0} end={260} duration={6} delay={0.9} />}<div className="ms-2 days">Days</div>
+                              {(counterOn) && <CountUp start={0} end={date?.countDay} duration={6} delay={0.7} />}<div className="ms-2 days">Days</div>
                          </center>
                     </center>
-
-
                </ScrollTrigger>
-
-
           </>
      )
 }
